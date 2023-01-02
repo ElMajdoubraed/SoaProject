@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">  
+  <select id="getnotsale">
+    SELECT
+      name,
+      model,
+      price,
+      sale,
+      image,
+      description
+    FROM
+      products 
+    WHERE
+      isModel = 0
+  </select>
+   <select id="getModels">
+    SELECT
+      name,
+      model,
+      price,
+      image,
+      description
+    FROM
+      products 
+    WHERE
+      isModel = 1
+  </select>
+</mapper>
+<mapper namespace="save">  
+ <insert id="testInsertMulti">
+    INSERT INTO
+      products
+    (
+      name,
+      model,
+      price,
+      image,
+      sale,
+      description,
+      create_time     
+    )
+    VALUES
+    <foreach collection="products" item="product"  separator=",">
+    (
+      #{product.nameProduct},
+      #{product.model},
+      ${product.price},
+      #{product.image},
+      ${product.sale},
+      #{product.description},
+      ${product.create_time}
+    )
+    </foreach>
+  </insert>
+</mapper>

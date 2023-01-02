@@ -1,0 +1,3408 @@
+ 
+<name> 
+   product 1
+</name> 
+<model> 
+   model 1
+</model> 
+<price> 
+   500
+</price> 
+<sale> 
+ 
+   1
+ 
+<readBigUInt64LE> 
+   function readBigUInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const lo = first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24;
+
+  const hi = this[++offset] +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+
+  return BigInt(lo) + (BigInt(hi) << 32n);
+}
+</readBigUInt64LE> 
+<readBigUInt64BE> 
+   function readBigUInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const hi = first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+
+  const lo = this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+
+  return (BigInt(hi) << 32n) + BigInt(lo);
+}
+</readBigUInt64BE> 
+<readBigUint64LE> 
+   function readBigUInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const lo = first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24;
+
+  const hi = this[++offset] +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+
+  return BigInt(lo) + (BigInt(hi) << 32n);
+}
+</readBigUint64LE> 
+<readBigUint64BE> 
+   function readBigUInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const hi = first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+
+  const lo = this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+
+  return (BigInt(hi) << 32n) + BigInt(lo);
+}
+</readBigUint64BE> 
+<readBigInt64LE> 
+   function readBigInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const val = this[offset + 4] +
+    this[offset + 5] * 2 ** 8 +
+    this[offset + 6] * 2 ** 16 +
+    (last << 24); // Overflow
+  return (BigInt(val) << 32n) +
+    BigInt(first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24);
+}
+</readBigInt64LE> 
+<readBigInt64BE> 
+   function readBigInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const val = (first << 24) + // Overflow
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+  return (BigInt(val) << 32n) +
+    BigInt(this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last);
+}
+</readBigInt64BE> 
+<writeBigUInt64LE> 
+   function writeBigUInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUInt64LE> 
+<writeBigUInt64BE> 
+   function writeBigUInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUInt64BE> 
+<writeBigUint64LE> 
+   function writeBigUInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUint64LE> 
+<writeBigUint64BE> 
+   function writeBigUInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUint64BE> 
+<writeBigInt64LE> 
+   function writeBigInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(
+    this, value, offset, -0x8000000000000000n, 0x7fffffffffffffffn);
+}
+</writeBigInt64LE> 
+<writeBigInt64BE> 
+   function writeBigInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(
+    this, value, offset, -0x8000000000000000n, 0x7fffffffffffffffn);
+}
+</writeBigInt64BE> 
+<readUIntLE> 
+   function readUIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48LE(this, offset);
+  if (byteLength === 5)
+    return readUInt40LE(this, offset);
+  if (byteLength === 3)
+    return readUInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32LE(offset);
+  if (byteLength === 2)
+    return this.readUInt16LE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUIntLE> 
+<readUInt32LE> 
+   function readUInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+}
+</readUInt32LE> 
+<readUInt16LE> 
+   function readUInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first + last * 2 ** 8;
+}
+</readUInt16LE> 
+<readUInt8> 
+   function readUInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val;
+}
+</readUInt8> 
+<readUIntBE> 
+   function readUIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48BE(this, offset);
+  if (byteLength === 5)
+    return readUInt40BE(this, offset);
+  if (byteLength === 3)
+    return readUInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32BE(offset);
+  if (byteLength === 2)
+    return this.readUInt16BE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUIntBE> 
+<readUInt32BE> 
+   function readUInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readUInt32BE> 
+<readUInt16BE> 
+   function readUInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first * 2 ** 8 + last;
+}
+</readUInt16BE> 
+<readUintLE> 
+   function readUIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48LE(this, offset);
+  if (byteLength === 5)
+    return readUInt40LE(this, offset);
+  if (byteLength === 3)
+    return readUInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32LE(offset);
+  if (byteLength === 2)
+    return this.readUInt16LE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUintLE> 
+<readUint32LE> 
+   function readUInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+}
+</readUint32LE> 
+<readUint16LE> 
+   function readUInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first + last * 2 ** 8;
+}
+</readUint16LE> 
+<readUint8> 
+   function readUInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val;
+}
+</readUint8> 
+<readUintBE> 
+   function readUIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48BE(this, offset);
+  if (byteLength === 5)
+    return readUInt40BE(this, offset);
+  if (byteLength === 3)
+    return readUInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32BE(offset);
+  if (byteLength === 2)
+    return this.readUInt16BE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUintBE> 
+<readUint32BE> 
+   function readUInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readUint32BE> 
+<readUint16BE> 
+   function readUInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first * 2 ** 8 + last;
+}
+</readUint16BE> 
+<readIntLE> 
+   function readIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readInt48LE(this, offset);
+  if (byteLength === 5)
+    return readInt40LE(this, offset);
+  if (byteLength === 3)
+    return readInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readInt32LE(offset);
+  if (byteLength === 2)
+    return this.readInt16LE(offset);
+  if (byteLength === 1)
+    return this.readInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readIntLE> 
+<readInt32LE> 
+   function readInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    (last << 24); // Overflow
+}
+</readInt32LE> 
+<readInt16LE> 
+   function readInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  const val = first + last * 2 ** 8;
+  return val | (val & 2 ** 15) * 0x1fffe;
+}
+</readInt16LE> 
+<readInt8> 
+   function readInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val | (val & 2 ** 7) * 0x1fffffe;
+}
+</readInt8> 
+<readIntBE> 
+   function readIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readInt48BE(this, offset);
+  if (byteLength === 5)
+    return readInt40BE(this, offset);
+  if (byteLength === 3)
+    return readInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readInt32BE(offset);
+  if (byteLength === 2)
+    return this.readInt16BE(offset);
+  if (byteLength === 1)
+    return this.readInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readIntBE> 
+<readInt32BE> 
+   function readInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return (first << 24) + // Overflow
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readInt32BE> 
+<readInt16BE> 
+   function readInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  const val = first * 2 ** 8 + last;
+  return val | (val & 2 ** 15) * 0x1fffe;
+}
+</readInt16BE> 
+<writeUIntLE> 
+   function writeUIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUIntLE> 
+<writeUInt32LE> 
+   function writeUInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+}
+</writeUInt32LE> 
+<writeUInt16LE> 
+   function writeUInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, 0, 0xffff);
+}
+</writeUInt16LE> 
+<writeUInt8> 
+   function writeUInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, 0, 0xff);
+}
+</writeUInt8> 
+<writeUIntBE> 
+   function writeUIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUIntBE> 
+<writeUInt32BE> 
+   function writeUInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+}
+</writeUInt32BE> 
+<writeUInt16BE> 
+   function writeUInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, 0, 0xffff);
+}
+</writeUInt16BE> 
+<writeUintLE> 
+   function writeUIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUintLE> 
+<writeUint32LE> 
+   function writeUInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+}
+</writeUint32LE> 
+<writeUint16LE> 
+   function writeUInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, 0, 0xffff);
+}
+</writeUint16LE> 
+<writeUint8> 
+   function writeUInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, 0, 0xff);
+}
+</writeUint8> 
+<writeUintBE> 
+   function writeUIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUintBE> 
+<writeUint32BE> 
+   function writeUInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+}
+</writeUint32BE> 
+<writeUint16BE> 
+   function writeUInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, 0, 0xffff);
+}
+</writeUint16BE> 
+<writeIntLE> 
+   function writeIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, -0x800000000000, 0x7fffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, -0x8000000000, 0x7fffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, -0x800000, 0x7fffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, -0x80000000, 0x7fffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, -0x8000, 0x7fff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, -0x80, 0x7f);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeIntLE> 
+<writeInt32LE> 
+   function writeInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, -0x80000000, 0x7fffffff);
+}
+</writeInt32LE> 
+<writeInt16LE> 
+   function writeInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, -0x8000, 0x7fff);
+}
+</writeInt16LE> 
+<writeInt8> 
+   function writeInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, -0x80, 0x7f);
+}
+</writeInt8> 
+<writeIntBE> 
+   function writeIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, -0x800000000000, 0x7fffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, -0x8000000000, 0x7fffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, -0x800000, 0x7fffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, -0x80000000, 0x7fffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, -0x8000, 0x7fff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, -0x80, 0x7f);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeIntBE> 
+<writeInt32BE> 
+   function writeInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, -0x80000000, 0x7fffffff);
+}
+</writeInt32BE> 
+<writeInt16BE> 
+   function writeInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, -0x8000, 0x7fff);
+}
+</writeInt16BE> 
+<readFloatLE> 
+   function readFloatForwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  uInt8Float32Array[0] = first;
+  uInt8Float32Array[1] = this[++offset];
+  uInt8Float32Array[2] = this[++offset];
+  uInt8Float32Array[3] = last;
+  return float32Array[0];
+}
+</readFloatLE> 
+<readFloatBE> 
+   function readFloatBackwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  uInt8Float32Array[3] = first;
+  uInt8Float32Array[2] = this[++offset];
+  uInt8Float32Array[1] = this[++offset];
+  uInt8Float32Array[0] = last;
+  return float32Array[0];
+}
+</readFloatBE> 
+<readDoubleLE> 
+   function readDoubleForwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  uInt8Float64Array[0] = first;
+  uInt8Float64Array[1] = this[++offset];
+  uInt8Float64Array[2] = this[++offset];
+  uInt8Float64Array[3] = this[++offset];
+  uInt8Float64Array[4] = this[++offset];
+  uInt8Float64Array[5] = this[++offset];
+  uInt8Float64Array[6] = this[++offset];
+  uInt8Float64Array[7] = last;
+  return float64Array[0];
+}
+</readDoubleLE> 
+<readDoubleBE> 
+   function readDoubleBackwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  uInt8Float64Array[7] = first;
+  uInt8Float64Array[6] = this[++offset];
+  uInt8Float64Array[5] = this[++offset];
+  uInt8Float64Array[4] = this[++offset];
+  uInt8Float64Array[3] = this[++offset];
+  uInt8Float64Array[2] = this[++offset];
+  uInt8Float64Array[1] = this[++offset];
+  uInt8Float64Array[0] = last;
+  return float64Array[0];
+}
+</readDoubleBE> 
+<writeFloatLE> 
+   function writeFloatForwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 3);
+
+  float32Array[0] = val;
+  this[offset++] = uInt8Float32Array[0];
+  this[offset++] = uInt8Float32Array[1];
+  this[offset++] = uInt8Float32Array[2];
+  this[offset++] = uInt8Float32Array[3];
+  return offset;
+}
+</writeFloatLE> 
+<writeFloatBE> 
+   function writeFloatBackwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 3);
+
+  float32Array[0] = val;
+  this[offset++] = uInt8Float32Array[3];
+  this[offset++] = uInt8Float32Array[2];
+  this[offset++] = uInt8Float32Array[1];
+  this[offset++] = uInt8Float32Array[0];
+  return offset;
+}
+</writeFloatBE> 
+<writeDoubleLE> 
+   function writeDoubleForwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 7);
+
+  float64Array[0] = val;
+  this[offset++] = uInt8Float64Array[0];
+  this[offset++] = uInt8Float64Array[1];
+  this[offset++] = uInt8Float64Array[2];
+  this[offset++] = uInt8Float64Array[3];
+  this[offset++] = uInt8Float64Array[4];
+  this[offset++] = uInt8Float64Array[5];
+  this[offset++] = uInt8Float64Array[6];
+  this[offset++] = uInt8Float64Array[7];
+  return offset;
+}
+</writeDoubleLE> 
+<writeDoubleBE> 
+   function writeDoubleBackwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 7);
+
+  float64Array[0] = val;
+  this[offset++] = uInt8Float64Array[7];
+  this[offset++] = uInt8Float64Array[6];
+  this[offset++] = uInt8Float64Array[5];
+  this[offset++] = uInt8Float64Array[4];
+  this[offset++] = uInt8Float64Array[3];
+  this[offset++] = uInt8Float64Array[2];
+  this[offset++] = uInt8Float64Array[1];
+  this[offset++] = uInt8Float64Array[0];
+  return offset;
+}
+</writeDoubleBE> 
+<asciiSlice> 
+   function asciiSlice() { [native code] }
+</asciiSlice> 
+<base64Slice> 
+   function base64Slice() { [native code] }
+</base64Slice> 
+<base64urlSlice> 
+   function base64urlSlice() { [native code] }
+</base64urlSlice> 
+<latin1Slice> 
+   function latin1Slice() { [native code] }
+</latin1Slice> 
+<hexSlice> 
+   function hexSlice() { [native code] }
+</hexSlice> 
+<ucs2Slice> 
+   function ucs2Slice() { [native code] }
+</ucs2Slice> 
+<utf8Slice> 
+   function utf8Slice() { [native code] }
+</utf8Slice> 
+<asciiWrite> 
+   function asciiWrite() { [native code] }
+</asciiWrite> 
+<base64Write> 
+   function base64Write() { [native code] }
+</base64Write> 
+<base64urlWrite> 
+   function base64urlWrite() { [native code] }
+</base64urlWrite> 
+<latin1Write> 
+   function latin1Write() { [native code] }
+</latin1Write> 
+<hexWrite> 
+   function hexWrite() { [native code] }
+</hexWrite> 
+<ucs2Write> 
+   function ucs2Write() { [native code] }
+</ucs2Write> 
+<utf8Write> 
+   function utf8Write() { [native code] }
+</utf8Write> 
+<parent> 
+</parent> 
+<offset> 
+   385
+</offset> 
+<copy> 
+   function copy(target, targetStart, sourceStart, sourceEnd) {
+    return _copy(this, target, targetStart, sourceStart, sourceEnd);
+  }
+</copy> 
+<toString> 
+   function toString(encoding, start, end) {
+  if (arguments.length === 0) {
+    return this.utf8Slice(0, this.length);
+  }
+
+  const len = this.length;
+
+  if (start <= 0)
+    start = 0;
+  else if (start >= len)
+    return '';
+  else
+    start |= 0;
+
+  if (end === undefined || end > len)
+    end = len;
+  else
+    end |= 0;
+
+  if (end <= start)
+    return '';
+
+  if (encoding === undefined)
+    return this.utf8Slice(start, end);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+
+  return ops.slice(this, start, end);
+}
+</toString> 
+<equals> 
+   function equals(otherBuffer) {
+  if (!isUint8Array(otherBuffer)) {
+    throw new ERR_INVALID_ARG_TYPE(
+      'otherBuffer', ['Buffer', 'Uint8Array'], otherBuffer);
+  }
+
+  if (this === otherBuffer)
+    return true;
+
+  if (this.byteLength !== otherBuffer.byteLength)
+    return false;
+
+  return this.byteLength === 0 || _compare(this, otherBuffer) === 0;
+}
+</equals> 
+<inspect> 
+   function inspect(recurseTimes, ctx) {
+  const max = INSPECT_MAX_BYTES;
+  const actualMax = MathMin(max, this.length);
+  const remaining = this.length - max;
+  let str = StringPrototypeTrim(RegExpPrototypeSymbolReplace(
+    /(.{2})/g, this.hexSlice(0, actualMax), '$1 '));
+  if (remaining > 0)
+    str += ` ... ${remaining} more byte${remaining > 1 ? 's' : ''}`;
+  // Inspect special properties as well, if possible.
+  if (ctx) {
+    let extras = false;
+    const filter = ctx.showHidden ? ALL_PROPERTIES : ONLY_ENUMERABLE;
+    const obj = ObjectCreate(null);
+    ArrayPrototypeForEach(getOwnNonIndexProperties(this, filter),
+                          (key) => {
+                            extras = true;
+                            obj[key] = this[key];
+                          });
+    if (extras) {
+      if (this.length !== 0)
+        str += ', ';
+      // '[Object: null prototype] {'.length === 26
+      // This is guarded with a test.
+      str += StringPrototypeSlice(utilInspect(obj, {
+        ...ctx,
+        breakLength: Infinity,
+        compact: true
+      }), 27, -2);
+    }
+  }
+  return `<${this.constructor.name} ${str}>`;
+}
+</inspect> 
+<compare> 
+   function compare(target,
+                                            targetStart,
+                                            targetEnd,
+                                            sourceStart,
+                                            sourceEnd) {
+  if (!isUint8Array(target)) {
+    throw new ERR_INVALID_ARG_TYPE('target', ['Buffer', 'Uint8Array'], target);
+  }
+  if (arguments.length === 1)
+    return _compare(this, target);
+
+  if (targetStart === undefined)
+    targetStart = 0;
+  else
+    validateOffset(targetStart, 'targetStart');
+
+  if (targetEnd === undefined)
+    targetEnd = target.length;
+  else
+    validateOffset(targetEnd, 'targetEnd', 0, target.length);
+
+  if (sourceStart === undefined)
+    sourceStart = 0;
+  else
+    validateOffset(sourceStart, 'sourceStart');
+
+  if (sourceEnd === undefined)
+    sourceEnd = this.length;
+  else
+    validateOffset(sourceEnd, 'sourceEnd', 0, this.length);
+
+  if (sourceStart >= sourceEnd)
+    return (targetStart >= targetEnd ? 0 : -1);
+  if (targetStart >= targetEnd)
+    return 1;
+
+  return compareOffset(this, target, targetStart, sourceStart, targetEnd,
+                       sourceEnd);
+}
+</compare> 
+<indexOf> 
+   function indexOf(val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
+}
+</indexOf> 
+<lastIndexOf> 
+   function lastIndexOf(val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
+}
+</lastIndexOf> 
+<includes> 
+   function includes(val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1;
+}
+</includes> 
+<fill> 
+   function fill(value, offset, end, encoding) {
+  return _fill(this, value, offset, end, encoding);
+}
+</fill> 
+<write> 
+   function write(string, offset, length, encoding) {
+  // Buffer#write(string);
+  if (offset === undefined) {
+    return this.utf8Write(string, 0, this.length);
+  }
+  // Buffer#write(string, encoding)
+  if (length === undefined && typeof offset === 'string') {
+    encoding = offset;
+    length = this.length;
+    offset = 0;
+
+  // Buffer#write(string, offset[, length][, encoding])
+  } else {
+    validateOffset(offset, 'offset', 0, this.length);
+
+    const remaining = this.length - offset;
+
+    if (length === undefined) {
+      length = remaining;
+    } else if (typeof length === 'string') {
+      encoding = length;
+      length = remaining;
+    } else {
+      validateOffset(length, 'length', 0, this.length);
+      if (length > remaining)
+        length = remaining;
+    }
+  }
+
+  if (!encoding)
+    return this.utf8Write(string, offset, length);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+  return ops.write(this, string, offset, length);
+}
+</write> 
+<toJSON> 
+   function toJSON() {
+  if (this.length > 0) {
+    const data = new Array(this.length);
+    for (let i = 0; i < this.length; ++i)
+      data[i] = this[i];
+    return { type: 'Buffer', data };
+  }
+  return { type: 'Buffer', data: [] };
+}
+</toJSON> 
+<subarray> 
+   function subarray(start, end) {
+  const srcLength = this.length;
+  start = adjustOffset(start, srcLength);
+  end = end !== undefined ? adjustOffset(end, srcLength) : srcLength;
+  const newLength = end > start ? end - start : 0;
+  return new FastBuffer(this.buffer, this.byteOffset + start, newLength);
+}
+</subarray> 
+<slice> 
+   function slice(start, end) {
+  return this.subarray(start, end);
+}
+</slice> 
+<swap16> 
+   function swap16() {
+  // For Buffer.length < 128, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 2 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('16-bits');
+  if (len < 128) {
+    for (let i = 0; i < len; i += 2)
+      swap(this, i, i + 1);
+    return this;
+  }
+  return _swap16(this);
+}
+</swap16> 
+<swap32> 
+   function swap32() {
+  // For Buffer.length < 192, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 4 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('32-bits');
+  if (len < 192) {
+    for (let i = 0; i < len; i += 4) {
+      swap(this, i, i + 3);
+      swap(this, i + 1, i + 2);
+    }
+    return this;
+  }
+  return _swap32(this);
+}
+</swap32> 
+<swap64> 
+   function swap64() {
+  // For Buffer.length < 192, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 8 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('64-bits');
+  if (len < 192) {
+    for (let i = 0; i < len; i += 8) {
+      swap(this, i, i + 7);
+      swap(this, i + 1, i + 6);
+      swap(this, i + 2, i + 5);
+      swap(this, i + 3, i + 4);
+    }
+    return this;
+  }
+  return _swap64(this);
+}
+</swap64> 
+<toLocaleString> 
+   function toString(encoding, start, end) {
+  if (arguments.length === 0) {
+    return this.utf8Slice(0, this.length);
+  }
+
+  const len = this.length;
+
+  if (start <= 0)
+    start = 0;
+  else if (start >= len)
+    return '';
+  else
+    start |= 0;
+
+  if (end === undefined || end > len)
+    end = len;
+  else
+    end |= 0;
+
+  if (end <= start)
+    return '';
+
+  if (encoding === undefined)
+    return this.utf8Slice(start, end);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+
+  return ops.slice(this, start, end);
+}
+</toLocaleString> 
+</sale> 
+<image> 
+   https://media.istockphoto.com/id/1198863709/photo/skin-and-hair-care-beauty-product-mock-up-lotion-bottle-oil-cream-isolated-on-white-3d-render.jpg?s=612x612&w=0&k=20&c=_0-9dLUohaQrThH0669Ygx3Ar17rX0cRkXy0cEexfQw=
+</image> 
+<description> 
+   no
+</description> 
+ 
+ 
+<name> 
+   product 2
+</name> 
+<model> 
+   model 2
+</model> 
+<price> 
+   200
+</price> 
+<sale> 
+ 
+   0
+ 
+<readBigUInt64LE> 
+   function readBigUInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const lo = first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24;
+
+  const hi = this[++offset] +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+
+  return BigInt(lo) + (BigInt(hi) << 32n);
+}
+</readBigUInt64LE> 
+<readBigUInt64BE> 
+   function readBigUInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const hi = first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+
+  const lo = this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+
+  return (BigInt(hi) << 32n) + BigInt(lo);
+}
+</readBigUInt64BE> 
+<readBigUint64LE> 
+   function readBigUInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const lo = first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24;
+
+  const hi = this[++offset] +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+
+  return BigInt(lo) + (BigInt(hi) << 32n);
+}
+</readBigUint64LE> 
+<readBigUint64BE> 
+   function readBigUInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const hi = first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+
+  const lo = this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+
+  return (BigInt(hi) << 32n) + BigInt(lo);
+}
+</readBigUint64BE> 
+<readBigInt64LE> 
+   function readBigInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const val = this[offset + 4] +
+    this[offset + 5] * 2 ** 8 +
+    this[offset + 6] * 2 ** 16 +
+    (last << 24); // Overflow
+  return (BigInt(val) << 32n) +
+    BigInt(first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24);
+}
+</readBigInt64LE> 
+<readBigInt64BE> 
+   function readBigInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const val = (first << 24) + // Overflow
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+  return (BigInt(val) << 32n) +
+    BigInt(this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last);
+}
+</readBigInt64BE> 
+<writeBigUInt64LE> 
+   function writeBigUInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUInt64LE> 
+<writeBigUInt64BE> 
+   function writeBigUInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUInt64BE> 
+<writeBigUint64LE> 
+   function writeBigUInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUint64LE> 
+<writeBigUint64BE> 
+   function writeBigUInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUint64BE> 
+<writeBigInt64LE> 
+   function writeBigInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(
+    this, value, offset, -0x8000000000000000n, 0x7fffffffffffffffn);
+}
+</writeBigInt64LE> 
+<writeBigInt64BE> 
+   function writeBigInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(
+    this, value, offset, -0x8000000000000000n, 0x7fffffffffffffffn);
+}
+</writeBigInt64BE> 
+<readUIntLE> 
+   function readUIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48LE(this, offset);
+  if (byteLength === 5)
+    return readUInt40LE(this, offset);
+  if (byteLength === 3)
+    return readUInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32LE(offset);
+  if (byteLength === 2)
+    return this.readUInt16LE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUIntLE> 
+<readUInt32LE> 
+   function readUInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+}
+</readUInt32LE> 
+<readUInt16LE> 
+   function readUInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first + last * 2 ** 8;
+}
+</readUInt16LE> 
+<readUInt8> 
+   function readUInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val;
+}
+</readUInt8> 
+<readUIntBE> 
+   function readUIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48BE(this, offset);
+  if (byteLength === 5)
+    return readUInt40BE(this, offset);
+  if (byteLength === 3)
+    return readUInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32BE(offset);
+  if (byteLength === 2)
+    return this.readUInt16BE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUIntBE> 
+<readUInt32BE> 
+   function readUInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readUInt32BE> 
+<readUInt16BE> 
+   function readUInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first * 2 ** 8 + last;
+}
+</readUInt16BE> 
+<readUintLE> 
+   function readUIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48LE(this, offset);
+  if (byteLength === 5)
+    return readUInt40LE(this, offset);
+  if (byteLength === 3)
+    return readUInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32LE(offset);
+  if (byteLength === 2)
+    return this.readUInt16LE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUintLE> 
+<readUint32LE> 
+   function readUInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+}
+</readUint32LE> 
+<readUint16LE> 
+   function readUInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first + last * 2 ** 8;
+}
+</readUint16LE> 
+<readUint8> 
+   function readUInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val;
+}
+</readUint8> 
+<readUintBE> 
+   function readUIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48BE(this, offset);
+  if (byteLength === 5)
+    return readUInt40BE(this, offset);
+  if (byteLength === 3)
+    return readUInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32BE(offset);
+  if (byteLength === 2)
+    return this.readUInt16BE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUintBE> 
+<readUint32BE> 
+   function readUInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readUint32BE> 
+<readUint16BE> 
+   function readUInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first * 2 ** 8 + last;
+}
+</readUint16BE> 
+<readIntLE> 
+   function readIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readInt48LE(this, offset);
+  if (byteLength === 5)
+    return readInt40LE(this, offset);
+  if (byteLength === 3)
+    return readInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readInt32LE(offset);
+  if (byteLength === 2)
+    return this.readInt16LE(offset);
+  if (byteLength === 1)
+    return this.readInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readIntLE> 
+<readInt32LE> 
+   function readInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    (last << 24); // Overflow
+}
+</readInt32LE> 
+<readInt16LE> 
+   function readInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  const val = first + last * 2 ** 8;
+  return val | (val & 2 ** 15) * 0x1fffe;
+}
+</readInt16LE> 
+<readInt8> 
+   function readInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val | (val & 2 ** 7) * 0x1fffffe;
+}
+</readInt8> 
+<readIntBE> 
+   function readIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readInt48BE(this, offset);
+  if (byteLength === 5)
+    return readInt40BE(this, offset);
+  if (byteLength === 3)
+    return readInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readInt32BE(offset);
+  if (byteLength === 2)
+    return this.readInt16BE(offset);
+  if (byteLength === 1)
+    return this.readInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readIntBE> 
+<readInt32BE> 
+   function readInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return (first << 24) + // Overflow
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readInt32BE> 
+<readInt16BE> 
+   function readInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  const val = first * 2 ** 8 + last;
+  return val | (val & 2 ** 15) * 0x1fffe;
+}
+</readInt16BE> 
+<writeUIntLE> 
+   function writeUIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUIntLE> 
+<writeUInt32LE> 
+   function writeUInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+}
+</writeUInt32LE> 
+<writeUInt16LE> 
+   function writeUInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, 0, 0xffff);
+}
+</writeUInt16LE> 
+<writeUInt8> 
+   function writeUInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, 0, 0xff);
+}
+</writeUInt8> 
+<writeUIntBE> 
+   function writeUIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUIntBE> 
+<writeUInt32BE> 
+   function writeUInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+}
+</writeUInt32BE> 
+<writeUInt16BE> 
+   function writeUInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, 0, 0xffff);
+}
+</writeUInt16BE> 
+<writeUintLE> 
+   function writeUIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUintLE> 
+<writeUint32LE> 
+   function writeUInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+}
+</writeUint32LE> 
+<writeUint16LE> 
+   function writeUInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, 0, 0xffff);
+}
+</writeUint16LE> 
+<writeUint8> 
+   function writeUInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, 0, 0xff);
+}
+</writeUint8> 
+<writeUintBE> 
+   function writeUIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUintBE> 
+<writeUint32BE> 
+   function writeUInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+}
+</writeUint32BE> 
+<writeUint16BE> 
+   function writeUInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, 0, 0xffff);
+}
+</writeUint16BE> 
+<writeIntLE> 
+   function writeIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, -0x800000000000, 0x7fffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, -0x8000000000, 0x7fffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, -0x800000, 0x7fffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, -0x80000000, 0x7fffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, -0x8000, 0x7fff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, -0x80, 0x7f);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeIntLE> 
+<writeInt32LE> 
+   function writeInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, -0x80000000, 0x7fffffff);
+}
+</writeInt32LE> 
+<writeInt16LE> 
+   function writeInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, -0x8000, 0x7fff);
+}
+</writeInt16LE> 
+<writeInt8> 
+   function writeInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, -0x80, 0x7f);
+}
+</writeInt8> 
+<writeIntBE> 
+   function writeIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, -0x800000000000, 0x7fffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, -0x8000000000, 0x7fffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, -0x800000, 0x7fffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, -0x80000000, 0x7fffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, -0x8000, 0x7fff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, -0x80, 0x7f);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeIntBE> 
+<writeInt32BE> 
+   function writeInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, -0x80000000, 0x7fffffff);
+}
+</writeInt32BE> 
+<writeInt16BE> 
+   function writeInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, -0x8000, 0x7fff);
+}
+</writeInt16BE> 
+<readFloatLE> 
+   function readFloatForwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  uInt8Float32Array[0] = first;
+  uInt8Float32Array[1] = this[++offset];
+  uInt8Float32Array[2] = this[++offset];
+  uInt8Float32Array[3] = last;
+  return float32Array[0];
+}
+</readFloatLE> 
+<readFloatBE> 
+   function readFloatBackwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  uInt8Float32Array[3] = first;
+  uInt8Float32Array[2] = this[++offset];
+  uInt8Float32Array[1] = this[++offset];
+  uInt8Float32Array[0] = last;
+  return float32Array[0];
+}
+</readFloatBE> 
+<readDoubleLE> 
+   function readDoubleForwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  uInt8Float64Array[0] = first;
+  uInt8Float64Array[1] = this[++offset];
+  uInt8Float64Array[2] = this[++offset];
+  uInt8Float64Array[3] = this[++offset];
+  uInt8Float64Array[4] = this[++offset];
+  uInt8Float64Array[5] = this[++offset];
+  uInt8Float64Array[6] = this[++offset];
+  uInt8Float64Array[7] = last;
+  return float64Array[0];
+}
+</readDoubleLE> 
+<readDoubleBE> 
+   function readDoubleBackwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  uInt8Float64Array[7] = first;
+  uInt8Float64Array[6] = this[++offset];
+  uInt8Float64Array[5] = this[++offset];
+  uInt8Float64Array[4] = this[++offset];
+  uInt8Float64Array[3] = this[++offset];
+  uInt8Float64Array[2] = this[++offset];
+  uInt8Float64Array[1] = this[++offset];
+  uInt8Float64Array[0] = last;
+  return float64Array[0];
+}
+</readDoubleBE> 
+<writeFloatLE> 
+   function writeFloatForwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 3);
+
+  float32Array[0] = val;
+  this[offset++] = uInt8Float32Array[0];
+  this[offset++] = uInt8Float32Array[1];
+  this[offset++] = uInt8Float32Array[2];
+  this[offset++] = uInt8Float32Array[3];
+  return offset;
+}
+</writeFloatLE> 
+<writeFloatBE> 
+   function writeFloatBackwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 3);
+
+  float32Array[0] = val;
+  this[offset++] = uInt8Float32Array[3];
+  this[offset++] = uInt8Float32Array[2];
+  this[offset++] = uInt8Float32Array[1];
+  this[offset++] = uInt8Float32Array[0];
+  return offset;
+}
+</writeFloatBE> 
+<writeDoubleLE> 
+   function writeDoubleForwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 7);
+
+  float64Array[0] = val;
+  this[offset++] = uInt8Float64Array[0];
+  this[offset++] = uInt8Float64Array[1];
+  this[offset++] = uInt8Float64Array[2];
+  this[offset++] = uInt8Float64Array[3];
+  this[offset++] = uInt8Float64Array[4];
+  this[offset++] = uInt8Float64Array[5];
+  this[offset++] = uInt8Float64Array[6];
+  this[offset++] = uInt8Float64Array[7];
+  return offset;
+}
+</writeDoubleLE> 
+<writeDoubleBE> 
+   function writeDoubleBackwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 7);
+
+  float64Array[0] = val;
+  this[offset++] = uInt8Float64Array[7];
+  this[offset++] = uInt8Float64Array[6];
+  this[offset++] = uInt8Float64Array[5];
+  this[offset++] = uInt8Float64Array[4];
+  this[offset++] = uInt8Float64Array[3];
+  this[offset++] = uInt8Float64Array[2];
+  this[offset++] = uInt8Float64Array[1];
+  this[offset++] = uInt8Float64Array[0];
+  return offset;
+}
+</writeDoubleBE> 
+<asciiSlice> 
+   function asciiSlice() { [native code] }
+</asciiSlice> 
+<base64Slice> 
+   function base64Slice() { [native code] }
+</base64Slice> 
+<base64urlSlice> 
+   function base64urlSlice() { [native code] }
+</base64urlSlice> 
+<latin1Slice> 
+   function latin1Slice() { [native code] }
+</latin1Slice> 
+<hexSlice> 
+   function hexSlice() { [native code] }
+</hexSlice> 
+<ucs2Slice> 
+   function ucs2Slice() { [native code] }
+</ucs2Slice> 
+<utf8Slice> 
+   function utf8Slice() { [native code] }
+</utf8Slice> 
+<asciiWrite> 
+   function asciiWrite() { [native code] }
+</asciiWrite> 
+<base64Write> 
+   function base64Write() { [native code] }
+</base64Write> 
+<base64urlWrite> 
+   function base64urlWrite() { [native code] }
+</base64urlWrite> 
+<latin1Write> 
+   function latin1Write() { [native code] }
+</latin1Write> 
+<hexWrite> 
+   function hexWrite() { [native code] }
+</hexWrite> 
+<ucs2Write> 
+   function ucs2Write() { [native code] }
+</ucs2Write> 
+<utf8Write> 
+   function utf8Write() { [native code] }
+</utf8Write> 
+<parent> 
+</parent> 
+<offset> 
+   630
+</offset> 
+<copy> 
+   function copy(target, targetStart, sourceStart, sourceEnd) {
+    return _copy(this, target, targetStart, sourceStart, sourceEnd);
+  }
+</copy> 
+<toString> 
+   function toString(encoding, start, end) {
+  if (arguments.length === 0) {
+    return this.utf8Slice(0, this.length);
+  }
+
+  const len = this.length;
+
+  if (start <= 0)
+    start = 0;
+  else if (start >= len)
+    return '';
+  else
+    start |= 0;
+
+  if (end === undefined || end > len)
+    end = len;
+  else
+    end |= 0;
+
+  if (end <= start)
+    return '';
+
+  if (encoding === undefined)
+    return this.utf8Slice(start, end);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+
+  return ops.slice(this, start, end);
+}
+</toString> 
+<equals> 
+   function equals(otherBuffer) {
+  if (!isUint8Array(otherBuffer)) {
+    throw new ERR_INVALID_ARG_TYPE(
+      'otherBuffer', ['Buffer', 'Uint8Array'], otherBuffer);
+  }
+
+  if (this === otherBuffer)
+    return true;
+
+  if (this.byteLength !== otherBuffer.byteLength)
+    return false;
+
+  return this.byteLength === 0 || _compare(this, otherBuffer) === 0;
+}
+</equals> 
+<inspect> 
+   function inspect(recurseTimes, ctx) {
+  const max = INSPECT_MAX_BYTES;
+  const actualMax = MathMin(max, this.length);
+  const remaining = this.length - max;
+  let str = StringPrototypeTrim(RegExpPrototypeSymbolReplace(
+    /(.{2})/g, this.hexSlice(0, actualMax), '$1 '));
+  if (remaining > 0)
+    str += ` ... ${remaining} more byte${remaining > 1 ? 's' : ''}`;
+  // Inspect special properties as well, if possible.
+  if (ctx) {
+    let extras = false;
+    const filter = ctx.showHidden ? ALL_PROPERTIES : ONLY_ENUMERABLE;
+    const obj = ObjectCreate(null);
+    ArrayPrototypeForEach(getOwnNonIndexProperties(this, filter),
+                          (key) => {
+                            extras = true;
+                            obj[key] = this[key];
+                          });
+    if (extras) {
+      if (this.length !== 0)
+        str += ', ';
+      // '[Object: null prototype] {'.length === 26
+      // This is guarded with a test.
+      str += StringPrototypeSlice(utilInspect(obj, {
+        ...ctx,
+        breakLength: Infinity,
+        compact: true
+      }), 27, -2);
+    }
+  }
+  return `<${this.constructor.name} ${str}>`;
+}
+</inspect> 
+<compare> 
+   function compare(target,
+                                            targetStart,
+                                            targetEnd,
+                                            sourceStart,
+                                            sourceEnd) {
+  if (!isUint8Array(target)) {
+    throw new ERR_INVALID_ARG_TYPE('target', ['Buffer', 'Uint8Array'], target);
+  }
+  if (arguments.length === 1)
+    return _compare(this, target);
+
+  if (targetStart === undefined)
+    targetStart = 0;
+  else
+    validateOffset(targetStart, 'targetStart');
+
+  if (targetEnd === undefined)
+    targetEnd = target.length;
+  else
+    validateOffset(targetEnd, 'targetEnd', 0, target.length);
+
+  if (sourceStart === undefined)
+    sourceStart = 0;
+  else
+    validateOffset(sourceStart, 'sourceStart');
+
+  if (sourceEnd === undefined)
+    sourceEnd = this.length;
+  else
+    validateOffset(sourceEnd, 'sourceEnd', 0, this.length);
+
+  if (sourceStart >= sourceEnd)
+    return (targetStart >= targetEnd ? 0 : -1);
+  if (targetStart >= targetEnd)
+    return 1;
+
+  return compareOffset(this, target, targetStart, sourceStart, targetEnd,
+                       sourceEnd);
+}
+</compare> 
+<indexOf> 
+   function indexOf(val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
+}
+</indexOf> 
+<lastIndexOf> 
+   function lastIndexOf(val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
+}
+</lastIndexOf> 
+<includes> 
+   function includes(val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1;
+}
+</includes> 
+<fill> 
+   function fill(value, offset, end, encoding) {
+  return _fill(this, value, offset, end, encoding);
+}
+</fill> 
+<write> 
+   function write(string, offset, length, encoding) {
+  // Buffer#write(string);
+  if (offset === undefined) {
+    return this.utf8Write(string, 0, this.length);
+  }
+  // Buffer#write(string, encoding)
+  if (length === undefined && typeof offset === 'string') {
+    encoding = offset;
+    length = this.length;
+    offset = 0;
+
+  // Buffer#write(string, offset[, length][, encoding])
+  } else {
+    validateOffset(offset, 'offset', 0, this.length);
+
+    const remaining = this.length - offset;
+
+    if (length === undefined) {
+      length = remaining;
+    } else if (typeof length === 'string') {
+      encoding = length;
+      length = remaining;
+    } else {
+      validateOffset(length, 'length', 0, this.length);
+      if (length > remaining)
+        length = remaining;
+    }
+  }
+
+  if (!encoding)
+    return this.utf8Write(string, offset, length);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+  return ops.write(this, string, offset, length);
+}
+</write> 
+<toJSON> 
+   function toJSON() {
+  if (this.length > 0) {
+    const data = new Array(this.length);
+    for (let i = 0; i < this.length; ++i)
+      data[i] = this[i];
+    return { type: 'Buffer', data };
+  }
+  return { type: 'Buffer', data: [] };
+}
+</toJSON> 
+<subarray> 
+   function subarray(start, end) {
+  const srcLength = this.length;
+  start = adjustOffset(start, srcLength);
+  end = end !== undefined ? adjustOffset(end, srcLength) : srcLength;
+  const newLength = end > start ? end - start : 0;
+  return new FastBuffer(this.buffer, this.byteOffset + start, newLength);
+}
+</subarray> 
+<slice> 
+   function slice(start, end) {
+  return this.subarray(start, end);
+}
+</slice> 
+<swap16> 
+   function swap16() {
+  // For Buffer.length < 128, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 2 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('16-bits');
+  if (len < 128) {
+    for (let i = 0; i < len; i += 2)
+      swap(this, i, i + 1);
+    return this;
+  }
+  return _swap16(this);
+}
+</swap16> 
+<swap32> 
+   function swap32() {
+  // For Buffer.length < 192, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 4 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('32-bits');
+  if (len < 192) {
+    for (let i = 0; i < len; i += 4) {
+      swap(this, i, i + 3);
+      swap(this, i + 1, i + 2);
+    }
+    return this;
+  }
+  return _swap32(this);
+}
+</swap32> 
+<swap64> 
+   function swap64() {
+  // For Buffer.length < 192, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 8 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('64-bits');
+  if (len < 192) {
+    for (let i = 0; i < len; i += 8) {
+      swap(this, i, i + 7);
+      swap(this, i + 1, i + 6);
+      swap(this, i + 2, i + 5);
+      swap(this, i + 3, i + 4);
+    }
+    return this;
+  }
+  return _swap64(this);
+}
+</swap64> 
+<toLocaleString> 
+   function toString(encoding, start, end) {
+  if (arguments.length === 0) {
+    return this.utf8Slice(0, this.length);
+  }
+
+  const len = this.length;
+
+  if (start <= 0)
+    start = 0;
+  else if (start >= len)
+    return '';
+  else
+    start |= 0;
+
+  if (end === undefined || end > len)
+    end = len;
+  else
+    end |= 0;
+
+  if (end <= start)
+    return '';
+
+  if (encoding === undefined)
+    return this.utf8Slice(start, end);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+
+  return ops.slice(this, start, end);
+}
+</toLocaleString> 
+</sale> 
+<image> 
+   https://cdn4.avada.io/media/shopify/dmPYgF1.png
+</image> 
+<description> 
+   no
+</description> 
+ 
+ 
+<name> 
+   Smart Watch HAVIT Fitness
+</name> 
+<model> 
+   smart watch
+</model> 
+<price> 
+   11
+</price> 
+<sale> 
+ 
+   1
+ 
+<readBigUInt64LE> 
+   function readBigUInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const lo = first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24;
+
+  const hi = this[++offset] +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+
+  return BigInt(lo) + (BigInt(hi) << 32n);
+}
+</readBigUInt64LE> 
+<readBigUInt64BE> 
+   function readBigUInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const hi = first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+
+  const lo = this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+
+  return (BigInt(hi) << 32n) + BigInt(lo);
+}
+</readBigUInt64BE> 
+<readBigUint64LE> 
+   function readBigUInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const lo = first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24;
+
+  const hi = this[++offset] +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+
+  return BigInt(lo) + (BigInt(hi) << 32n);
+}
+</readBigUint64LE> 
+<readBigUint64BE> 
+   function readBigUInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const hi = first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+
+  const lo = this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+
+  return (BigInt(hi) << 32n) + BigInt(lo);
+}
+</readBigUint64BE> 
+<readBigInt64LE> 
+   function readBigInt64LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const val = this[offset + 4] +
+    this[offset + 5] * 2 ** 8 +
+    this[offset + 6] * 2 ** 16 +
+    (last << 24); // Overflow
+  return (BigInt(val) << 32n) +
+    BigInt(first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 24);
+}
+</readBigInt64LE> 
+<readBigInt64BE> 
+   function readBigInt64BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  const val = (first << 24) + // Overflow
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    this[++offset];
+  return (BigInt(val) << 32n) +
+    BigInt(this[++offset] * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last);
+}
+</readBigInt64BE> 
+<writeBigUInt64LE> 
+   function writeBigUInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUInt64LE> 
+<writeBigUInt64BE> 
+   function writeBigUInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUInt64BE> 
+<writeBigUint64LE> 
+   function writeBigUInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUint64LE> 
+<writeBigUint64BE> 
+   function writeBigUInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(this, value, offset, 0n, 0xffffffffffffffffn);
+}
+</writeBigUint64BE> 
+<writeBigInt64LE> 
+   function writeBigInt64LE(value, offset = 0) {
+  return writeBigU_Int64LE(
+    this, value, offset, -0x8000000000000000n, 0x7fffffffffffffffn);
+}
+</writeBigInt64LE> 
+<writeBigInt64BE> 
+   function writeBigInt64BE(value, offset = 0) {
+  return writeBigU_Int64BE(
+    this, value, offset, -0x8000000000000000n, 0x7fffffffffffffffn);
+}
+</writeBigInt64BE> 
+<readUIntLE> 
+   function readUIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48LE(this, offset);
+  if (byteLength === 5)
+    return readUInt40LE(this, offset);
+  if (byteLength === 3)
+    return readUInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32LE(offset);
+  if (byteLength === 2)
+    return this.readUInt16LE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUIntLE> 
+<readUInt32LE> 
+   function readUInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+}
+</readUInt32LE> 
+<readUInt16LE> 
+   function readUInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first + last * 2 ** 8;
+}
+</readUInt16LE> 
+<readUInt8> 
+   function readUInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val;
+}
+</readUInt8> 
+<readUIntBE> 
+   function readUIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48BE(this, offset);
+  if (byteLength === 5)
+    return readUInt40BE(this, offset);
+  if (byteLength === 3)
+    return readUInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32BE(offset);
+  if (byteLength === 2)
+    return this.readUInt16BE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUIntBE> 
+<readUInt32BE> 
+   function readUInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readUInt32BE> 
+<readUInt16BE> 
+   function readUInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first * 2 ** 8 + last;
+}
+</readUInt16BE> 
+<readUintLE> 
+   function readUIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48LE(this, offset);
+  if (byteLength === 5)
+    return readUInt40LE(this, offset);
+  if (byteLength === 3)
+    return readUInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32LE(offset);
+  if (byteLength === 2)
+    return this.readUInt16LE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUintLE> 
+<readUint32LE> 
+   function readUInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    last * 2 ** 24;
+}
+</readUint32LE> 
+<readUint16LE> 
+   function readUInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first + last * 2 ** 8;
+}
+</readUint16LE> 
+<readUint8> 
+   function readUInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val;
+}
+</readUint8> 
+<readUintBE> 
+   function readUIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readUInt48BE(this, offset);
+  if (byteLength === 5)
+    return readUInt40BE(this, offset);
+  if (byteLength === 3)
+    return readUInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readUInt32BE(offset);
+  if (byteLength === 2)
+    return this.readUInt16BE(offset);
+  if (byteLength === 1)
+    return this.readUInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readUintBE> 
+<readUint32BE> 
+   function readUInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first * 2 ** 24 +
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readUint32BE> 
+<readUint16BE> 
+   function readUInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  return first * 2 ** 8 + last;
+}
+</readUint16BE> 
+<readIntLE> 
+   function readIntLE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readInt48LE(this, offset);
+  if (byteLength === 5)
+    return readInt40LE(this, offset);
+  if (byteLength === 3)
+    return readInt24LE(this, offset);
+  if (byteLength === 4)
+    return this.readInt32LE(offset);
+  if (byteLength === 2)
+    return this.readInt16LE(offset);
+  if (byteLength === 1)
+    return this.readInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readIntLE> 
+<readInt32LE> 
+   function readInt32LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return first +
+    this[++offset] * 2 ** 8 +
+    this[++offset] * 2 ** 16 +
+    (last << 24); // Overflow
+}
+</readInt32LE> 
+<readInt16LE> 
+   function readInt16LE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  const val = first + last * 2 ** 8;
+  return val | (val & 2 ** 15) * 0x1fffe;
+}
+</readInt16LE> 
+<readInt8> 
+   function readInt8(offset = 0) {
+  validateNumber(offset, 'offset');
+  const val = this[offset];
+  if (val === undefined)
+    boundsError(offset, this.length - 1);
+
+  return val | (val & 2 ** 7) * 0x1fffffe;
+}
+</readInt8> 
+<readIntBE> 
+   function readIntBE(offset, byteLength) {
+  if (offset === undefined)
+    throw new ERR_INVALID_ARG_TYPE('offset', 'number', offset);
+  if (byteLength === 6)
+    return readInt48BE(this, offset);
+  if (byteLength === 5)
+    return readInt40BE(this, offset);
+  if (byteLength === 3)
+    return readInt24BE(this, offset);
+  if (byteLength === 4)
+    return this.readInt32BE(offset);
+  if (byteLength === 2)
+    return this.readInt16BE(offset);
+  if (byteLength === 1)
+    return this.readInt8(offset);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</readIntBE> 
+<readInt32BE> 
+   function readInt32BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  return (first << 24) + // Overflow
+    this[++offset] * 2 ** 16 +
+    this[++offset] * 2 ** 8 +
+    last;
+}
+</readInt32BE> 
+<readInt16BE> 
+   function readInt16BE(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 1];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 2);
+
+  const val = first * 2 ** 8 + last;
+  return val | (val & 2 ** 15) * 0x1fffe;
+}
+</readInt16BE> 
+<writeUIntLE> 
+   function writeUIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUIntLE> 
+<writeUInt32LE> 
+   function writeUInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+}
+</writeUInt32LE> 
+<writeUInt16LE> 
+   function writeUInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, 0, 0xffff);
+}
+</writeUInt16LE> 
+<writeUInt8> 
+   function writeUInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, 0, 0xff);
+}
+</writeUInt8> 
+<writeUIntBE> 
+   function writeUIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUIntBE> 
+<writeUInt32BE> 
+   function writeUInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+}
+</writeUInt32BE> 
+<writeUInt16BE> 
+   function writeUInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, 0, 0xffff);
+}
+</writeUInt16BE> 
+<writeUintLE> 
+   function writeUIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUintLE> 
+<writeUint32LE> 
+   function writeUInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, 0, 0xffffffff);
+}
+</writeUint32LE> 
+<writeUint16LE> 
+   function writeUInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, 0, 0xffff);
+}
+</writeUint16LE> 
+<writeUint8> 
+   function writeUInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, 0, 0xff);
+}
+</writeUint8> 
+<writeUintBE> 
+   function writeUIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, 0, 0xffffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, 0, 0xffffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, 0, 0xffffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, 0, 0xffff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, 0, 0xff);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeUintBE> 
+<writeUint32BE> 
+   function writeUInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, 0, 0xffffffff);
+}
+</writeUint32BE> 
+<writeUint16BE> 
+   function writeUInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, 0, 0xffff);
+}
+</writeUint16BE> 
+<writeIntLE> 
+   function writeIntLE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48LE(this, value, offset, -0x800000000000, 0x7fffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40LE(this, value, offset, -0x8000000000, 0x7fffffffff);
+  if (byteLength === 3)
+    return writeU_Int24LE(this, value, offset, -0x800000, 0x7fffff);
+  if (byteLength === 4)
+    return writeU_Int32LE(this, value, offset, -0x80000000, 0x7fffffff);
+  if (byteLength === 2)
+    return writeU_Int16LE(this, value, offset, -0x8000, 0x7fff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, -0x80, 0x7f);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeIntLE> 
+<writeInt32LE> 
+   function writeInt32LE(value, offset = 0) {
+  return writeU_Int32LE(this, value, offset, -0x80000000, 0x7fffffff);
+}
+</writeInt32LE> 
+<writeInt16LE> 
+   function writeInt16LE(value, offset = 0) {
+  return writeU_Int16LE(this, value, offset, -0x8000, 0x7fff);
+}
+</writeInt16LE> 
+<writeInt8> 
+   function writeInt8(value, offset = 0) {
+  return writeU_Int8(this, value, offset, -0x80, 0x7f);
+}
+</writeInt8> 
+<writeIntBE> 
+   function writeIntBE(value, offset, byteLength) {
+  if (byteLength === 6)
+    return writeU_Int48BE(this, value, offset, -0x800000000000, 0x7fffffffffff);
+  if (byteLength === 5)
+    return writeU_Int40BE(this, value, offset, -0x8000000000, 0x7fffffffff);
+  if (byteLength === 3)
+    return writeU_Int24BE(this, value, offset, -0x800000, 0x7fffff);
+  if (byteLength === 4)
+    return writeU_Int32BE(this, value, offset, -0x80000000, 0x7fffffff);
+  if (byteLength === 2)
+    return writeU_Int16BE(this, value, offset, -0x8000, 0x7fff);
+  if (byteLength === 1)
+    return writeU_Int8(this, value, offset, -0x80, 0x7f);
+
+  boundsError(byteLength, 6, 'byteLength');
+}
+</writeIntBE> 
+<writeInt32BE> 
+   function writeInt32BE(value, offset = 0) {
+  return writeU_Int32BE(this, value, offset, -0x80000000, 0x7fffffff);
+}
+</writeInt32BE> 
+<writeInt16BE> 
+   function writeInt16BE(value, offset = 0) {
+  return writeU_Int16BE(this, value, offset, -0x8000, 0x7fff);
+}
+</writeInt16BE> 
+<readFloatLE> 
+   function readFloatForwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  uInt8Float32Array[0] = first;
+  uInt8Float32Array[1] = this[++offset];
+  uInt8Float32Array[2] = this[++offset];
+  uInt8Float32Array[3] = last;
+  return float32Array[0];
+}
+</readFloatLE> 
+<readFloatBE> 
+   function readFloatBackwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 3];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 4);
+
+  uInt8Float32Array[3] = first;
+  uInt8Float32Array[2] = this[++offset];
+  uInt8Float32Array[1] = this[++offset];
+  uInt8Float32Array[0] = last;
+  return float32Array[0];
+}
+</readFloatBE> 
+<readDoubleLE> 
+   function readDoubleForwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  uInt8Float64Array[0] = first;
+  uInt8Float64Array[1] = this[++offset];
+  uInt8Float64Array[2] = this[++offset];
+  uInt8Float64Array[3] = this[++offset];
+  uInt8Float64Array[4] = this[++offset];
+  uInt8Float64Array[5] = this[++offset];
+  uInt8Float64Array[6] = this[++offset];
+  uInt8Float64Array[7] = last;
+  return float64Array[0];
+}
+</readDoubleLE> 
+<readDoubleBE> 
+   function readDoubleBackwards(offset = 0) {
+  validateNumber(offset, 'offset');
+  const first = this[offset];
+  const last = this[offset + 7];
+  if (first === undefined || last === undefined)
+    boundsError(offset, this.length - 8);
+
+  uInt8Float64Array[7] = first;
+  uInt8Float64Array[6] = this[++offset];
+  uInt8Float64Array[5] = this[++offset];
+  uInt8Float64Array[4] = this[++offset];
+  uInt8Float64Array[3] = this[++offset];
+  uInt8Float64Array[2] = this[++offset];
+  uInt8Float64Array[1] = this[++offset];
+  uInt8Float64Array[0] = last;
+  return float64Array[0];
+}
+</readDoubleBE> 
+<writeFloatLE> 
+   function writeFloatForwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 3);
+
+  float32Array[0] = val;
+  this[offset++] = uInt8Float32Array[0];
+  this[offset++] = uInt8Float32Array[1];
+  this[offset++] = uInt8Float32Array[2];
+  this[offset++] = uInt8Float32Array[3];
+  return offset;
+}
+</writeFloatLE> 
+<writeFloatBE> 
+   function writeFloatBackwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 3);
+
+  float32Array[0] = val;
+  this[offset++] = uInt8Float32Array[3];
+  this[offset++] = uInt8Float32Array[2];
+  this[offset++] = uInt8Float32Array[1];
+  this[offset++] = uInt8Float32Array[0];
+  return offset;
+}
+</writeFloatBE> 
+<writeDoubleLE> 
+   function writeDoubleForwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 7);
+
+  float64Array[0] = val;
+  this[offset++] = uInt8Float64Array[0];
+  this[offset++] = uInt8Float64Array[1];
+  this[offset++] = uInt8Float64Array[2];
+  this[offset++] = uInt8Float64Array[3];
+  this[offset++] = uInt8Float64Array[4];
+  this[offset++] = uInt8Float64Array[5];
+  this[offset++] = uInt8Float64Array[6];
+  this[offset++] = uInt8Float64Array[7];
+  return offset;
+}
+</writeDoubleLE> 
+<writeDoubleBE> 
+   function writeDoubleBackwards(val, offset = 0) {
+  val = +val;
+  checkBounds(this, offset, 7);
+
+  float64Array[0] = val;
+  this[offset++] = uInt8Float64Array[7];
+  this[offset++] = uInt8Float64Array[6];
+  this[offset++] = uInt8Float64Array[5];
+  this[offset++] = uInt8Float64Array[4];
+  this[offset++] = uInt8Float64Array[3];
+  this[offset++] = uInt8Float64Array[2];
+  this[offset++] = uInt8Float64Array[1];
+  this[offset++] = uInt8Float64Array[0];
+  return offset;
+}
+</writeDoubleBE> 
+<asciiSlice> 
+   function asciiSlice() { [native code] }
+</asciiSlice> 
+<base64Slice> 
+   function base64Slice() { [native code] }
+</base64Slice> 
+<base64urlSlice> 
+   function base64urlSlice() { [native code] }
+</base64urlSlice> 
+<latin1Slice> 
+   function latin1Slice() { [native code] }
+</latin1Slice> 
+<hexSlice> 
+   function hexSlice() { [native code] }
+</hexSlice> 
+<ucs2Slice> 
+   function ucs2Slice() { [native code] }
+</ucs2Slice> 
+<utf8Slice> 
+   function utf8Slice() { [native code] }
+</utf8Slice> 
+<asciiWrite> 
+   function asciiWrite() { [native code] }
+</asciiWrite> 
+<base64Write> 
+   function base64Write() { [native code] }
+</base64Write> 
+<base64urlWrite> 
+   function base64urlWrite() { [native code] }
+</base64urlWrite> 
+<latin1Write> 
+   function latin1Write() { [native code] }
+</latin1Write> 
+<hexWrite> 
+   function hexWrite() { [native code] }
+</hexWrite> 
+<ucs2Write> 
+   function ucs2Write() { [native code] }
+</ucs2Write> 
+<utf8Write> 
+   function utf8Write() { [native code] }
+</utf8Write> 
+<parent> 
+</parent> 
+<offset> 
+   728
+</offset> 
+<copy> 
+   function copy(target, targetStart, sourceStart, sourceEnd) {
+    return _copy(this, target, targetStart, sourceStart, sourceEnd);
+  }
+</copy> 
+<toString> 
+   function toString(encoding, start, end) {
+  if (arguments.length === 0) {
+    return this.utf8Slice(0, this.length);
+  }
+
+  const len = this.length;
+
+  if (start <= 0)
+    start = 0;
+  else if (start >= len)
+    return '';
+  else
+    start |= 0;
+
+  if (end === undefined || end > len)
+    end = len;
+  else
+    end |= 0;
+
+  if (end <= start)
+    return '';
+
+  if (encoding === undefined)
+    return this.utf8Slice(start, end);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+
+  return ops.slice(this, start, end);
+}
+</toString> 
+<equals> 
+   function equals(otherBuffer) {
+  if (!isUint8Array(otherBuffer)) {
+    throw new ERR_INVALID_ARG_TYPE(
+      'otherBuffer', ['Buffer', 'Uint8Array'], otherBuffer);
+  }
+
+  if (this === otherBuffer)
+    return true;
+
+  if (this.byteLength !== otherBuffer.byteLength)
+    return false;
+
+  return this.byteLength === 0 || _compare(this, otherBuffer) === 0;
+}
+</equals> 
+<inspect> 
+   function inspect(recurseTimes, ctx) {
+  const max = INSPECT_MAX_BYTES;
+  const actualMax = MathMin(max, this.length);
+  const remaining = this.length - max;
+  let str = StringPrototypeTrim(RegExpPrototypeSymbolReplace(
+    /(.{2})/g, this.hexSlice(0, actualMax), '$1 '));
+  if (remaining > 0)
+    str += ` ... ${remaining} more byte${remaining > 1 ? 's' : ''}`;
+  // Inspect special properties as well, if possible.
+  if (ctx) {
+    let extras = false;
+    const filter = ctx.showHidden ? ALL_PROPERTIES : ONLY_ENUMERABLE;
+    const obj = ObjectCreate(null);
+    ArrayPrototypeForEach(getOwnNonIndexProperties(this, filter),
+                          (key) => {
+                            extras = true;
+                            obj[key] = this[key];
+                          });
+    if (extras) {
+      if (this.length !== 0)
+        str += ', ';
+      // '[Object: null prototype] {'.length === 26
+      // This is guarded with a test.
+      str += StringPrototypeSlice(utilInspect(obj, {
+        ...ctx,
+        breakLength: Infinity,
+        compact: true
+      }), 27, -2);
+    }
+  }
+  return `<${this.constructor.name} ${str}>`;
+}
+</inspect> 
+<compare> 
+   function compare(target,
+                                            targetStart,
+                                            targetEnd,
+                                            sourceStart,
+                                            sourceEnd) {
+  if (!isUint8Array(target)) {
+    throw new ERR_INVALID_ARG_TYPE('target', ['Buffer', 'Uint8Array'], target);
+  }
+  if (arguments.length === 1)
+    return _compare(this, target);
+
+  if (targetStart === undefined)
+    targetStart = 0;
+  else
+    validateOffset(targetStart, 'targetStart');
+
+  if (targetEnd === undefined)
+    targetEnd = target.length;
+  else
+    validateOffset(targetEnd, 'targetEnd', 0, target.length);
+
+  if (sourceStart === undefined)
+    sourceStart = 0;
+  else
+    validateOffset(sourceStart, 'sourceStart');
+
+  if (sourceEnd === undefined)
+    sourceEnd = this.length;
+  else
+    validateOffset(sourceEnd, 'sourceEnd', 0, this.length);
+
+  if (sourceStart >= sourceEnd)
+    return (targetStart >= targetEnd ? 0 : -1);
+  if (targetStart >= targetEnd)
+    return 1;
+
+  return compareOffset(this, target, targetStart, sourceStart, targetEnd,
+                       sourceEnd);
+}
+</compare> 
+<indexOf> 
+   function indexOf(val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
+}
+</indexOf> 
+<lastIndexOf> 
+   function lastIndexOf(val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
+}
+</lastIndexOf> 
+<includes> 
+   function includes(val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1;
+}
+</includes> 
+<fill> 
+   function fill(value, offset, end, encoding) {
+  return _fill(this, value, offset, end, encoding);
+}
+</fill> 
+<write> 
+   function write(string, offset, length, encoding) {
+  // Buffer#write(string);
+  if (offset === undefined) {
+    return this.utf8Write(string, 0, this.length);
+  }
+  // Buffer#write(string, encoding)
+  if (length === undefined && typeof offset === 'string') {
+    encoding = offset;
+    length = this.length;
+    offset = 0;
+
+  // Buffer#write(string, offset[, length][, encoding])
+  } else {
+    validateOffset(offset, 'offset', 0, this.length);
+
+    const remaining = this.length - offset;
+
+    if (length === undefined) {
+      length = remaining;
+    } else if (typeof length === 'string') {
+      encoding = length;
+      length = remaining;
+    } else {
+      validateOffset(length, 'length', 0, this.length);
+      if (length > remaining)
+        length = remaining;
+    }
+  }
+
+  if (!encoding)
+    return this.utf8Write(string, offset, length);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+  return ops.write(this, string, offset, length);
+}
+</write> 
+<toJSON> 
+   function toJSON() {
+  if (this.length > 0) {
+    const data = new Array(this.length);
+    for (let i = 0; i < this.length; ++i)
+      data[i] = this[i];
+    return { type: 'Buffer', data };
+  }
+  return { type: 'Buffer', data: [] };
+}
+</toJSON> 
+<subarray> 
+   function subarray(start, end) {
+  const srcLength = this.length;
+  start = adjustOffset(start, srcLength);
+  end = end !== undefined ? adjustOffset(end, srcLength) : srcLength;
+  const newLength = end > start ? end - start : 0;
+  return new FastBuffer(this.buffer, this.byteOffset + start, newLength);
+}
+</subarray> 
+<slice> 
+   function slice(start, end) {
+  return this.subarray(start, end);
+}
+</slice> 
+<swap16> 
+   function swap16() {
+  // For Buffer.length < 128, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 2 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('16-bits');
+  if (len < 128) {
+    for (let i = 0; i < len; i += 2)
+      swap(this, i, i + 1);
+    return this;
+  }
+  return _swap16(this);
+}
+</swap16> 
+<swap32> 
+   function swap32() {
+  // For Buffer.length < 192, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 4 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('32-bits');
+  if (len < 192) {
+    for (let i = 0; i < len; i += 4) {
+      swap(this, i, i + 3);
+      swap(this, i + 1, i + 2);
+    }
+    return this;
+  }
+  return _swap32(this);
+}
+</swap32> 
+<swap64> 
+   function swap64() {
+  // For Buffer.length < 192, it's generally faster to
+  // do the swap in javascript. For larger buffers,
+  // dropping down to the native code is faster.
+  const len = this.length;
+  if (len % 8 !== 0)
+    throw new ERR_INVALID_BUFFER_SIZE('64-bits');
+  if (len < 192) {
+    for (let i = 0; i < len; i += 8) {
+      swap(this, i, i + 7);
+      swap(this, i + 1, i + 6);
+      swap(this, i + 2, i + 5);
+      swap(this, i + 3, i + 4);
+    }
+    return this;
+  }
+  return _swap64(this);
+}
+</swap64> 
+<toLocaleString> 
+   function toString(encoding, start, end) {
+  if (arguments.length === 0) {
+    return this.utf8Slice(0, this.length);
+  }
+
+  const len = this.length;
+
+  if (start <= 0)
+    start = 0;
+  else if (start >= len)
+    return '';
+  else
+    start |= 0;
+
+  if (end === undefined || end > len)
+    end = len;
+  else
+    end |= 0;
+
+  if (end <= start)
+    return '';
+
+  if (encoding === undefined)
+    return this.utf8Slice(start, end);
+
+  const ops = getEncodingOps(encoding);
+  if (ops === undefined)
+    throw new ERR_UNKNOWN_ENCODING(encoding);
+
+  return ops.slice(this, start, end);
+}
+</toLocaleString> 
+</sale> 
+<image> 
+   https://mtsplus.tn/2299-large_default/smart-watch-havit-m9006-pro.jpg
+</image> 
+<description> 
+   ddd
+</description> 
+ 

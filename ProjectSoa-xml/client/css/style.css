@@ -1,0 +1,22 @@
+.navbar{
+    background-color: #6610f2 !important;
+    height: 65px !important;
+}
+
+.navbar-title{
+    color: transparent;
+    text-decoration: none;
+}
+
+.rounded-img{
+    border-radius: 15px;
+}
+
+.first-color{
+    color: #6610f2 !important;
+}
+
+.btn-primary{
+    border-radius: 25px;
+    width: 90%;
+}
